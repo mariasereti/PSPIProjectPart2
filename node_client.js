@@ -36,7 +36,7 @@ app.use(function(req, res, next) {
     next();
 });
 
-var PORT = process.env.PORT || 3000;
+var PORT = process.env.PORT || 5000;
 
 app.post('/signup', function (req, res) {
     console.log(req.body);
@@ -131,7 +131,7 @@ function signInUser(email, password, res) {
         console.log(snapshot.val().timestamp);
 
         res.writeHead(200, {"Content-Type": "application/json"});
-        var json = JSON.stringify({response: "User signed in successfully", code : 1, userID : uid, username : name});
+        var json = JSON.stringify({response: "User signed in successfully", code : 1, userID : uid, username : snapshot.val().name});
         res.end(json);
 
     }, function (errorObject) {

@@ -127,10 +127,12 @@
     </option>
   </component>
   <component name="RunManager">
-    <configuration name="node_client.js" type="NodeJSConfigurationType" factoryName="Node.js" temporary="true" path-to-node="$PROJECT_DIR$/../../../../Program Files (x86)/nodejs/node" path-to-js-file="node_client.js" working-dir="$PROJECT_DIR$" />
+    <configuration name="node_client.js" type="NodeJSConfigurationType" temporary="true" path-to-node="$PROJECT_DIR$/../../../../Program Files (x86)/nodejs/node" path-to-js-file="node_client.js" working-dir="$PROJECT_DIR$">
+      <method v="2" />
+    </configuration>
     <recent_temporary>
-      <list size="1">
-        <item index="0" class="java.lang.String" itemvalue="Node.js.node_client.js" />
+      <list>
+        <item itemvalue="Node.js.node_client.js" />
       </list>
     </recent_temporary>
   </component>
