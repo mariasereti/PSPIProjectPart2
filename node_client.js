@@ -98,14 +98,14 @@ function signUpUser(email, password,name,surname, res) {
     })
 
     res.writeHead(200, {"Content-Type": "application/json"});
-    var json = JSON.stringify({response: "User created successfully with id: " + uid});
+    var json = JSON.stringify({response: "User created successfully with id: " + uid, code : 1, userID : uid, username : name} );
     res.end(json);
 
 }).
     catch((error) => {
         console.log("Error fetching user data:", error.message);
     res.writeHead(400, {"Content-Type": "application/json"});
-    var json = JSON.stringify({response: error.message});
+    var json = JSON.stringify({response: error.message, code : 2});
     res.end(json);
 })
     ;
@@ -131,7 +131,7 @@ function signInUser(email, password, res) {
         console.log(snapshot.val().timestamp);
 
         res.writeHead(200, {"Content-Type": "application/json"});
-        var json = JSON.stringify({response: "User signed in successfully"});
+        var json = JSON.stringify({response: "User signed in successfully", code : 1, userID : uid, username : name});
         res.end(json);
 
     }, function (errorObject) {
@@ -143,7 +143,7 @@ function signInUser(email, password, res) {
     catch((error) => {
         console.log("Error fetching user data:", error.message);
     res.writeHead(400, {"Content-Type": "application/json"});
-    var json = JSON.stringify({response: error.message});
+    var json = JSON.stringify({response: error.message, code : 2});
     res.end(json);
 });
 
