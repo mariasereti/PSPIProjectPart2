@@ -1,6 +1,19 @@
 var admin = require('firebase-admin');
+var firebase = require('firebase');
 var express = require('express');
 var bodyParser = require('body-parser');
+
+const firebaseConfig = {
+    apiKey: "AIzaSyAKRpQ9zg16Y5s68zkBSX_0lo0Yr9i_fQs",
+    authDomain: "pspiproject.firebaseapp.com",
+    databaseURL: "https://pspiproject-default-rtdb.firebaseio.com",
+    projectId: "pspiproject",
+    storageBucket: "pspiproject.appspot.com",
+    messagingSenderId: "706683363662",
+    appId: "1:706683363662:web:4ba9c21b95e130c1237e1f"
+};
+
+firebase.initializeApp(firebaseConfig);
 
 var serviceAccount = require('./service_account.json');
 
@@ -24,11 +37,13 @@ app.post('/signup', function (req, res) {
 
     var email = req.body.email;
     var password = req.body.password;
+    var name = req.body.name;
+    var surname = req.body.surname;
 
     console.log("Email: " + email);
     console.log("Password: " + password);
 
-    signUpUser(email, password, res);
+    signUpUser(email, password,name,surname, res);
 
 
 });
@@ -52,25 +67,28 @@ app.listen(PORT, function () {
     console.log("Started on PORT 3000");
 });
 
-function signUpUser(email, password, res) {
+function signUpUser(email, password,name,surname, res) {
     admin
         .auth()
         .createUser({
             email: email,
             emailVerified: false,
-            phoneNumber: '+11234567890',
             password: password
         })
         .then((userRecord) => {
-        console.log("Successfully created user:", userRecord);
+
 
     var uid = userRecord.uid;
+    console.log("Successfully created user:", uid);
 
     var database = admin.database();
     var usersRef = database.ref(/users/ + uid);
 
     usersRef.set({
-        email: email
+        email: email,
+        name : name,
+        surname : surname,
+        timestamp : new Date().getTime()
     })
 
     res.writeHead(200, {"Content-Type": "application/json"});
@@ -88,20 +106,23 @@ function signUpUser(email, password, res) {
 }
 
 function signInUser(email, password, res) {
-    admin
+    firebase
         .auth()
-        .getUserByEmail(email)
+        .signInWithEmailAndPassword(email,password)
         .then((userRecord) => {
-        console.log("Successfully fetched user data:", userRecord);
 
-    var uid = userRecord.uid;
 
+    var uid = userRecord.user.uid;
+    console.log("Successfully fetched user data:", uid);
     var database = admin.database();
     var usersRef = database.ref(/users/ + uid);
 
     usersRef.on("value", function (snapshot) {
         console.log(snapshot.val());
         console.log(snapshot.val().email);
+        console.log(snapshot.val().name);
+        console.log(snapshot.val().surname);
+        console.log(snapshot.val().timestamp);
 
         res.writeHead(200, {"Content-Type": "application/json"});
         var json = JSON.stringify({response: "User signed in successfully"});
