@@ -83,9 +83,19 @@ app.post('/newarticle', function (req, res) {
 
 });
 
+app.get('/articles', function (req, res) {
+    var uid = req.query.uid;
+    console.log("Get articles: " + uid);
+
+    getArticles(uid,res);
+
+});
+
+
+
 app.listen(PORT, function () {
 
-    console.log("Started on PORT 3000");
+    console.log("Started on PORT: " + PORT );
 });
 
 function signUpUser(email, password,name,surname, res) {
@@ -166,9 +176,9 @@ function signInUser(email, password, res) {
 
 function newArticle(uid,title,text,res) {
     var database = admin.database();
-    var usersRef = database.ref(/articles/ + uid);
+    var articlesRef = database.ref(/articles/ + uid);
 
-    const newPostRef = usersRef.push();
+    const newPostRef = articlesRef.push();
     newPostRef.set({
         title: title,
         text : text,
@@ -178,4 +188,44 @@ function newArticle(uid,title,text,res) {
     res.writeHead(200, {"Content-Type": "application/json"});
     var json = JSON.stringify({response: "Article created successfully with id: " + newPostRef.key} );
     res.end(json);
+}
+
+function getArticles(uid,res) {
+    var database = admin.database();
+    var articlesRef = database.ref(/articles/ + uid);
+
+    var totalArticles = 0;
+    var currentArticles = 0;
+
+    var articles = [];
+    articlesRef.once('value').then(snapshot =>{
+
+        totalArticles = snapshot.numChildren();
+        if(snapshot.val() == null){
+            res.writeHead(200, {"Content-Type": "application/json"});
+            var json = JSON.stringify(articles);
+            res.end(json);
+        }
+
+        snapshot.forEach( function (childSnapshot) {
+
+        console.log(childSnapshot.key);
+        var data = childSnapshot.val();
+
+        var obj = {title : data.title, text : data.text, id : childSnapshot.key};
+        articles.push(obj);
+        console.log(articles);
+        currentArticles = currentArticles +1;
+
+        if(currentArticles == totalArticles){
+            res.writeHead(200, {"Content-Type": "application/json"});
+            var json = JSON.stringify(articles);
+            res.end(json);
+        }
+
+    });
+
+
+});
+
 }
