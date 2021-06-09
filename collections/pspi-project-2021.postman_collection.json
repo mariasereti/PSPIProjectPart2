@@ -1,0 +1,304 @@
+{
+	"info": {
+		"_postman_id": "e5c3c2b6-624d-4ca1-b905-0ce42d77b7dd",
+		"name": "pspi project 2021",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "sign up",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "uid",
+							"value": "Nikos",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:3000/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3000",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "sign in",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "nzisis93@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "78837582a",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:3000/signin",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3000",
+					"path": [
+						"signin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "heroku sign up",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "petros@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "78837582a",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "Petros",
+							"type": "text"
+						},
+						{
+							"key": "surname",
+							"value": "Katsis",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://humanrightsapplication.herokuapp.com/signup",
+					"protocol": "https",
+					"host": [
+						"humanrightsapplication",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "heroku sign in",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "petros@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "78837582a",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://humanrightsapplication.herokuapp.com/signin",
+					"protocol": "https",
+					"host": [
+						"humanrightsapplication",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"signin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "heroku new article",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "uid",
+							"value": "MLodMUEeOTRzXMMCCHm8S3LtG3p1",
+							"type": "text"
+						},
+						{
+							"key": "title",
+							"value": "E-Learning",
+							"type": "text"
+						},
+						{
+							"key": "text",
+							"value": "Need beter platform for e-learning",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://humanrightsapplication.herokuapp.com/newarticle?Content-Type=application/x-www-form-urlencoded",
+					"protocol": "https",
+					"host": [
+						"humanrightsapplication",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"newarticle"
+					],
+					"query": [
+						{
+							"key": "Content-Type",
+							"value": "application/x-www-form-urlencoded"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "heroku get artciles",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://humanrightsapplication.herokuapp.com/articles?uid=MLodMUEeOTRzXMMCCHm8S3LtG3p1",
+					"protocol": "https",
+					"host": [
+						"humanrightsapplication",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"articles"
+					],
+					"query": [
+						{
+							"key": "uid",
+							"value": "MLodMUEeOTRzXMMCCHm8S3LtG3p1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "heroku update profile",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "uid",
+							"value": "MLodMUEeOTRzXMMCCHm8S3LtG3p1",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "Nick ",
+							"type": "text"
+						},
+						{
+							"key": "surname",
+							"value": "Zisis",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://humanrightsapplication.herokuapp.com/newarticle",
+					"protocol": "https",
+					"host": [
+						"humanrightsapplication",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"newarticle"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
