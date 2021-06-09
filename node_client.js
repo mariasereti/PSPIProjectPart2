@@ -48,6 +48,8 @@ app.post('/signup', function (req, res) {
 
     console.log("Email: " + email);
     console.log("Password: " + password);
+    console.log("Name: " + name);
+    console.log("SurName: " + surname);
 
     signUpUser(email, password,name,surname, res);
 
@@ -88,6 +90,22 @@ app.get('/articles', function (req, res) {
     console.log("Get articles: " + uid);
 
     getArticles(uid,res);
+
+});
+
+app.post('/updateuser', function (req, res) {
+    console.log(req.body);
+
+    var uid = req.body.uid;
+    var name = req.body.name;
+    var surname = req.body.surname;
+
+    console.log("UID: " + uid);
+    console.log("Name: " + name);
+    console.log("SurName: " + surname);
+
+
+    updateUser(uid,name,surname,res);
 
 });
 
@@ -227,5 +245,23 @@ function getArticles(uid,res) {
 
 
 });
+
+}
+
+function updateUser(uid,name,surname,res) {
+
+    var database = admin.database();
+    var usersRef = database.ref(/users/ + uid);
+
+    var updateData ={
+        name : name,
+        surname : surname
+    }
+
+    usersRef.update(updateData, function (success) {
+        res.writeHead(200, {"Content-Type": "application/json"});
+        var json = JSON.stringify({response: "User updated in successfully", code : 1});
+        res.end(json);
+    })
 
 }
