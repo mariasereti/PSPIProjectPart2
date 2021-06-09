@@ -68,6 +68,21 @@ app.post('/signin', function (req, res) {
 });
 
 
+app.post('/newarticle', function (req, res) {
+    console.log(req.body);
+
+    var uid = req.body.uid;
+    var title = req.body.title;
+    var text = req.body.text;
+
+    console.log("uid: " + uid);
+    console.log("title: " + title);
+    console.log("text: " + text);
+
+    newArticle(uid,title,text,res);
+
+});
+
 app.listen(PORT, function () {
 
     console.log("Started on PORT 3000");
@@ -147,4 +162,20 @@ function signInUser(email, password, res) {
     res.end(json);
 });
 
+}
+
+function newArticle(uid,title,text,res) {
+    var database = admin.database();
+    var usersRef = database.ref(/articles/ + uid);
+
+    const newPostRef = usersRef.push();
+    newPostRef.set({
+        title: title,
+        text : text,
+        date : new Date().getTime()
+    });
+
+    res.writeHead(200, {"Content-Type": "application/json"});
+    var json = JSON.stringify({response: "Article created successfully with id: " + newPostRef.key} );
+    res.end(json);
 }
