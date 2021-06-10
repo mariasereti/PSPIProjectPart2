@@ -48,6 +48,8 @@ app.post('/signup', function (req, res) {
 
     console.log("Email: " + email);
     console.log("Password: " + password);
+    console.log("Name: " + name);
+    console.log("SurName: " + surname);
 
     signUpUser(email, password,name,surname, res);
 
@@ -68,9 +70,50 @@ app.post('/signin', function (req, res) {
 });
 
 
+app.post('/newarticle', function (req, res) {
+    console.log(req.body);
+
+    var uid = req.body.uid;
+    var title = req.body.title;
+    var text = req.body.text;
+
+    console.log("uid: " + uid);
+    console.log("title: " + title);
+    console.log("text: " + text);
+
+    newArticle(uid,title,text,res);
+
+});
+
+app.get('/articles', function (req, res) {
+    var uid = req.query.uid;
+    console.log("Get articles: " + uid);
+
+    getArticles(uid,res);
+
+});
+
+app.post('/updateuser', function (req, res) {
+    console.log(req.body);
+
+    var uid = req.body.uid;
+    var name = req.body.name;
+    var surname = req.body.surname;
+
+    console.log("UID: " + uid);
+    console.log("Name: " + name);
+    console.log("SurName: " + surname);
+
+
+    updateUser(uid,name,surname,res);
+
+});
+
+
+
 app.listen(PORT, function () {
 
-    console.log("Started on PORT 3000");
+    console.log("Started on PORT: " + PORT );
 });
 
 function signUpUser(email, password,name,surname, res) {
@@ -146,5 +189,79 @@ function signInUser(email, password, res) {
     var json = JSON.stringify({response: error.message, code : 2});
     res.end(json);
 });
+
+}
+
+function newArticle(uid,title,text,res) {
+    var database = admin.database();
+    var articlesRef = database.ref(/articles/ + uid);
+
+    const newPostRef = articlesRef.push();
+    newPostRef.set({
+        title: title,
+        text : text,
+        date : new Date().getTime()
+    });
+
+    res.writeHead(200, {"Content-Type": "application/json"});
+    var json = JSON.stringify({response: "Article created successfully with id: " + newPostRef.key} );
+    res.end(json);
+}
+
+function getArticles(uid,res) {
+    var database = admin.database();
+    var articlesRef = database.ref(/articles/ + uid);
+
+    var totalArticles = 0;
+    var currentArticles = 0;
+
+    var articles = [];
+    articlesRef.once('value').then(snapshot =>{
+
+        totalArticles = snapshot.numChildren();
+        if(snapshot.val() == null){
+            res.writeHead(200, {"Content-Type": "application/json"});
+            var json = JSON.stringify(articles);
+            res.end(json);
+        }
+
+        snapshot.forEach( function (childSnapshot) {
+
+        console.log(childSnapshot.key);
+        var data = childSnapshot.val();
+
+        var obj = {title : data.title, text : data.text, id : childSnapshot.key};
+        articles.push(obj);
+        console.log(articles);
+        currentArticles = currentArticles +1;
+
+        if(currentArticles == totalArticles){
+            res.writeHead(200, {"Content-Type": "application/json"});
+            var json = JSON.stringify(articles);
+            res.end(json);
+        }
+
+    });
+
+
+});
+
+}
+
+function updateUser(uid,name,surname,res) {
+
+    var database = admin.database();
+    var usersRef = database.ref(/users/ + uid);
+
+    var updateData ={
+        name : name,
+        surname : surname
+    }
+
+    usersRef.update(updateData, function (success) {
+        res.writeHead(200, {"Content-Type": "application/json"});
+        var json = JSON.stringify({response: "User updated in successfully", code : 1});
+        res.end(json);
+    })
 
 }
