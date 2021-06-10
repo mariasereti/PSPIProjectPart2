@@ -98,7 +98,7 @@ function signUpUser(email, password,name,surname, res) {
     })
 
     res.writeHead(200, {"Content-Type": "application/json"});
-    var json = JSON.stringify({response: "User created successfully with id: " + uid, code : 1, userID : uid, username : name} );
+    var json = JSON.stringify({response: "User created successfully with id: " + uid, code : 1, userID : uid, username : name,  surname : surname, email : email} );
     res.end(json);
 
 }).
@@ -131,7 +131,7 @@ function signInUser(email, password, res) {
         console.log(snapshot.val().timestamp);
 
         res.writeHead(200, {"Content-Type": "application/json"});
-        var json = JSON.stringify({response: "User signed in successfully", code : 1, userID : uid, username : snapshot.val().name});
+        var json = JSON.stringify({response: "User signed in successfully", code : 1, userID : uid, username : snapshot.val().name, surname : snapshot.val().surname, email : snapshot.val().email });
         res.end(json);
 
     }, function (errorObject) {
