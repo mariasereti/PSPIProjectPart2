@@ -258,10 +258,10 @@ function updateUser(uid,name,surname,res) {
         surname : surname
     }
 
-    usersRef.update(updateData, function (success) {
-        res.writeHead(200, {"Content-Type": "application/json"});
-        var json = JSON.stringify({response: "User updated in successfully", code : 1,name : name, surname : surname});
-        res.end(json);
-    })
+    usersRef.update(updateData);
+
+    res.writeHead(200, {"Content-Type": "application/json"});
+    var json = JSON.stringify({response: "User updated in successfully", code : 1,name : name, surname : surname});
+    res.end(json);
 
 }
